@@ -45,6 +45,7 @@ This document tracks the status, key decisions, and progress of the Job Search C
 *   Fixed Next.js build error by removing unnecessary `export` from `authOptions` in NextAuth route handler.
 *   Fixed Vercel build failure by adding generated Prisma Client (`src/generated/prisma/`) to ESLint ignores (`eslint.config.mjs`).
 *   Fixed Vercel build failure by removing unused `NextAuth` import from `src/types/next-auth.d.ts`.
+*   Fixed Vercel build failure by adding `prisma generate` to the build script in `package.json`.
 
 ### Next Steps:
 
