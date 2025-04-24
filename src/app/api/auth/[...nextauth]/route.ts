@@ -1,12 +1,10 @@
 import NextAuth from "next-auth"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import GoogleProvider from "next-auth/providers/google"
-import { PrismaClient } from "@prisma/client"
+import prisma from "@/lib/prisma"
 import type { NextAuthOptions } from "next-auth";
 import type { AdapterUser } from "next-auth/adapters";
 import type { Session } from "next-auth";
-
-const prisma = new PrismaClient()
 
 if (!process.env.GOOGLE_CLIENT_ID || !process.env.GOOGLE_CLIENT_SECRET) {
   throw new Error("Missing Google OAuth environment variables");
