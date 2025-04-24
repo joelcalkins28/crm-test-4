@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Environment variables
+.env
+
+# Prisma
+/prisma/generated
+/prisma/migrations/*
+!/prisma/migrations/migration_lock.toml
+
+# SQLite database files
+*.db
+*.db-journal*
