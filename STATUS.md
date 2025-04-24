@@ -47,6 +47,7 @@ This document tracks the status, key decisions, and progress of the Job Search C
 *   Fixed Vercel build failure by removing unused `NextAuth` import from `src/types/next-auth.d.ts`.
 *   Fixed Vercel build failure by adding `prisma generate` to the build script in `package.json`.
 *   Refactored Prisma Client instantiation to use a singleton pattern (`src/lib/prisma.ts`) to potentially resolve build-time initialization issues.
+*   Explicitly set `engineType = "library"` in `prisma.schema` generator options as another attempt to fix build initialization.
 
 ### Next Steps:
 
