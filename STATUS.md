@@ -51,6 +51,9 @@ This document tracks the status, key decisions, and progress of the Job Search C
 *   Installed `@prisma/extension-accelerate` and applied it to the singleton Prisma Client instance to align with the Accelerate DATABASE_URL.
 *   Added explicit `--schema` path to Prisma commands in `package.json` build script to potentially fix Vercel build path issues.
 *   Modified explicit `--schema` path in build script (removed `./`) as another attempt to fix Vercel path issues.
+*   Reverted `package.json` build script and removed Vercel build command override.
+*   Specified Prisma schema location via `prisma.schema` key in `package.json`.
+*   Reinstated `prisma migrate deploy && prisma generate` into `package.json` build script.
 
 ### Next Steps:
 
