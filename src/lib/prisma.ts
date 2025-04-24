@@ -1,4 +1,5 @@
 import { PrismaClient } from '@prisma/client'
+import { withAccelerate } from '@prisma/extension-accelerate'
 
 let prisma: PrismaClient
 
@@ -10,15 +11,15 @@ declare global {
 
 // Prevent multiple instances of Prisma Client in development
 if (process.env.NODE_ENV === 'production') {
-  prisma = new PrismaClient()
+  prisma = new PrismaClient().$extends(withAccelerate())
 } else {
   if (!global.prisma) {
-    global.prisma = new PrismaClient()
+    global.prisma = new PrismaClient().$extends(withAccelerate())
   }
   prisma = global.prisma
 }
 
 /**
- * Singleton instance of PrismaClient.
+ * Singleton instance of PrismaClient with Accelerate.
  */
 export default prisma 
