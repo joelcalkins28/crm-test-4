@@ -43,6 +43,7 @@ This document tracks the status, key decisions, and progress of the Job Search C
 *   Removed initial local migration history (`prisma/migrations`) due to provider mismatch (P3019).
 *   **Confirmed `prisma migrate deploy` runs successfully on Vercel**, connecting to the database but finding no migrations to apply (as expected for now).
 *   Fixed Next.js build error by removing unnecessary `export` from `authOptions` in NextAuth route handler.
+*   Fixed Vercel build failure by adding generated Prisma Client (`src/generated/prisma/`) to ESLint ignores (`eslint.config.mjs`).
 
 ### Next Steps:
 
