@@ -39,15 +39,20 @@ This document tracks the status, key decisions, and progress of the Job Search C
     *   Updated `prisma.schema`, `.env`, and `.gitignore` accordingly.
 *   Successfully ran initial database migration (`prisma migrate dev --name init`).
 *   Generated Prisma Client.
+*   Configured `package.json` to run `prisma migrate deploy` during Vercel build.
+*   Removed initial local migration history (`prisma/migrations`) due to provider mismatch (P3019).
+*   **Confirmed `prisma migrate deploy` runs successfully on Vercel**, connecting to the database but finding no migrations to apply (as expected for now).
+*   Fixed Next.js build error by removing unnecessary `export` from `authOptions` in NextAuth route handler.
 
 ### Next Steps:
 
-1.  Update `ROADMAP.md` (Phase 1 progress).
-2.  Implement basic UI layout (Navigation, Login/Logout button).
-3.  Implement Contact Management (CRUD Pages/Components).
-4.  Implement Application Tracking (CRUD Pages/Components).
-5.  Add `.env` to `.gitignore`.
-6.  Define initial Prisma schema (User, Account, Contact, Application).
-7.  Configure NextAuth.js (Google Provider, Prisma Adapter).
-8.  Set up basic UI layout.
-9.  Run initial database migration. 
+1.  **Run `prisma migrate dev` locally** to create the *actual* initial migration for PostgreSQL now that the deployment connection seems stable. This will create the tables in the Vercel DB.
+2.  Update `ROADMAP.md` (Phase 1 progress).
+3.  Implement basic UI layout (Navigation, Login/Logout button).
+4.  Implement Contact Management (CRUD Pages/Components).
+5.  Implement Application Tracking (CRUD Pages/Components).
+6.  Add `.env` to `.gitignore`.
+7.  Define initial Prisma schema (User, Account, Contact, Application).
+8.  Configure NextAuth.js (Google Provider, Prisma Adapter).
+9.  Set up basic UI layout.
+10. Run initial database migration. 
