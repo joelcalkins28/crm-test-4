@@ -48,6 +48,11 @@
     *   Removed `prisma generate` from the `build` script in `package.json`.
     *   Reverted `src/lib/prisma.ts` to the standard singleton pattern (with dev caching).
     *   Goal: Ensure client generation completes reliably after installation and *before* the `next build` process starts.
+    *   Result: **Build FAILED**, still encountering `@prisma/client did not initialize yet` error.
+*   **Implemented Truly Lazy Prisma Client Instantiation**:
+    *   Modified `src/lib/prisma.ts` to ensure `new PrismaClient()` is *only* called within the `getPrismaInstance` function, not at the module's top level.
+    *   Removed `DEBUG="prisma*"` build flag as generation timing is not the root cause.
+    *   Goal: Prevent build-time analysis from triggering client instantiation.
 
 ### Next Steps:
 

@@ -7,27 +7,43 @@ declare global {
   var prisma: PrismaClient | undefined
 }
 
-let prismaInstance: PrismaClient;
-
-if (process.env.NODE_ENV === 'production') {
-  // In production, always create a new instance
-  console.log("[prisma.ts] Initializing new Prisma Client for production...");
-  prismaInstance = new PrismaClient().$extends(withAccelerate());
-} else {
-  // In development, use the global instance if it exists, otherwise create one
-  if (!global.prisma) {
-    console.log("[prisma.ts] Initializing new Prisma Client for development (global cache)...");
-    global.prisma = new PrismaClient().$extends(withAccelerate());
-  }
-  console.log("[prisma.ts] Using existing global Prisma Client from development cache...");
-  prismaInstance = global.prisma;
-}
+// Module-level variable to hold the singleton instance ONCE created.
+// Crucially, it starts as undefined.
+let prisma: PrismaClient | undefined;
 
 /**
  * Returns the singleton instance of PrismaClient with Accelerate.
+ * Instantiates the client ONLY when first called.
  */
 const getPrismaInstance = (): PrismaClient => {
-  return prismaInstance;
+  // Development: Check global cache first
+  if (process.env.NODE_ENV !== 'production') {
+    if (global.prisma) {
+      // console.log("[prisma.ts] Using existing global Prisma Client (Dev).");
+      return global.prisma;
+    }
+  }
+
+  // Production or Dev (first time): Check module-level cache
+  if (prisma) {
+    // console.log("[prisma.ts] Using existing module Prisma Client (Prod/Dev).");
+    return prisma;
+  }
+
+  // === INSTANTIATION POINT ===
+  // Only happens if no instance exists in cache (global or module)
+  console.log("[prisma.ts] LAZY INITIALIZATION: Creating new Prisma Client instance NOW.");
+  const newInstance = new PrismaClient().$extends(withAccelerate());
+
+  // Cache the new instance
+  if (process.env.NODE_ENV !== 'production') {
+    global.prisma = newInstance; // Cache globally in dev
+    // console.log("[prisma.ts] Cached new instance globally (Dev).");
+  }
+  prisma = newInstance; // Cache locally in module scope (for prod and future dev calls)
+  // console.log("[prisma.ts] Cached new instance in module scope.");
+
+  return newInstance;
 };
 
 export default getPrismaInstance; 
