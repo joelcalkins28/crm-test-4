@@ -11,6 +11,8 @@
     *   Simplifying Next.js configuration to remove all experimental options
     *   Adding jsconfig.json file to improve path alias resolution
     *   Ensuring all referenced files (@/lib/prisma, @/components/providers/auth-provider, etc.) are properly committed
+*   **Attempted further fix for module resolution errors** by:
+    *   Removing potentially conflicting `jsconfig.json` file, relying solely on `tsconfig.json`.
 
 ### Next Steps:
 
