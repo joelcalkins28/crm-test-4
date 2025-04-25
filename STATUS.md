@@ -20,6 +20,9 @@
     *   Updating `src/app/api/auth/[...nextauth]/route.ts` to call the new function.
 *   **Fixed 'Missing Google OAuth environment variables' build error** by:
     *   Temporarily commenting out the Google provider and related env var checks in NextAuth config (`src/app/api/auth/[...nextauth]/route.ts`).
+*   **Identified 'Missing NEXTAUTH_SECRET environment variable' build error**:
+    *   Cause: NextAuth requires this secret for signing tokens, even without active providers.
+    *   Resolution: User must add `NEXTAUTH_SECRET` environment variable in Vercel project settings (generate with `openssl rand -base64 32`).
 
 ### Next Steps:
 
@@ -31,4 +34,4 @@
 6.  Define initial Prisma schema (User, Account, Contact, Application).
 7.  Configure NextAuth.js (Google Provider, Prisma Adapter).
 8.  Set up basic UI layout.
-9.  Run initial database migration. 
+9.  Run initial database migration.
