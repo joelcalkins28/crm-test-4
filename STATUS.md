@@ -2,6 +2,11 @@
     *   Converting `next.config.ts` to `next.config.mjs` for better compatibility
     *   Configuring Next.js properly with explicit options in the config file
     *   Setting appropriate distDir and other configuration options
+*   **Updated Vercel deployment fix** by:
+    *   Committing the `src/app` directory to Git
+    *   Fixing Next.js 15 configuration option warnings
+    *   Updating from `experimental.serverComponentsExternalPackages` to `experimental.serverExternalPackages`
+    *   Removing the deprecated `swcMinify` option
 
 ### Next Steps:
 
