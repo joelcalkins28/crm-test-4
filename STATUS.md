@@ -23,6 +23,9 @@
 *   **Identified 'Missing NEXTAUTH_SECRET environment variable' build error**:
     *   Cause: NextAuth requires this secret for signing tokens, even without active providers.
     *   Resolution: User must add `NEXTAUTH_SECRET` environment variable in Vercel project settings (generate with `openssl rand -base64 32`).
+*   **Attempted fix for recurring `@prisma/client` initialization error** by:
+    *   Simplifying `src/lib/prisma.ts` singleton logic further (removing NODE_ENV/global checks).
+    *   Adding explicit `--schema` flag to `prisma generate` in `package.json` build script.
 
 ### Next Steps:
 
