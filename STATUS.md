@@ -42,6 +42,12 @@
     *   Using the lazy-loaded singleton `getPrismaInstance` from `src/lib/prisma.ts`.
     *   Removed temporary JWT strategy.
     *   Hypothesis: The build analysis might tolerate the function call (`getPrismaInstance()`) even if it failed on direct instantiation (`new PrismaClient()`).
+    *   Result: **Build FAILED**, still encountering `@prisma/client did not initialize yet` error.
+*   **Implemented `postinstall` Prisma generation strategy**:
+    *   Added `postinstall` script to `package.json` for `npx prisma generate --schema=./prisma/schema.prisma`.
+    *   Removed `prisma generate` from the `build` script in `package.json`.
+    *   Reverted `src/lib/prisma.ts` to the standard singleton pattern (with dev caching).
+    *   Goal: Ensure client generation completes reliably after installation and *before* the `next build` process starts.
 
 ### Next Steps:
 

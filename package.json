@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev --turbopack",
-    "build": "DEBUG=\"prisma*\" npx prisma migrate deploy && npx prisma generate --schema=./prisma/schema.prisma && next build",
+    "postinstall": "npx prisma generate --schema=./prisma/schema.prisma",
+    "build": "DEBUG=\"prisma*\" npx prisma migrate deploy && next build",
     "start": "next start",
     "lint": "next lint"
   },
