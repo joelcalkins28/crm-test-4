@@ -15,6 +15,9 @@
     *   Removing potentially conflicting `jsconfig.json` file, relying solely on `tsconfig.json`.
 *   **Attempted final fix for module resolution errors** by:
     *   Explicitly setting `"baseUrl": "."` in `tsconfig.json` to ensure correct path resolution.
+*   **Fixed `@prisma/client` initialization error during build** by:
+    *   Refactoring `src/lib/prisma.ts` to use lazy initialization (getPrismaInstance function).
+    *   Updating `src/app/api/auth/[...nextauth]/route.ts` to call the new function.
 
 ### Next Steps:
 
