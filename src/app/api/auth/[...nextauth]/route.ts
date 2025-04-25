@@ -1,16 +1,16 @@
 console.log("[NextAuth Route] Top of file");
 
 import NextAuth from "next-auth"
-// import { PrismaAdapter } from "@next-auth/prisma-adapter" // Temporarily commented out
+import { PrismaAdapter } from "@next-auth/prisma-adapter"
 // import GoogleProvider from "next-auth/providers/google" // Commented out for now
-// import getPrismaInstance from "@/lib/prisma" // No longer using the singleton function directly here for build
+import getPrismaInstance from "@/lib/prisma" // Re-enabled singleton import
 
 // console.log("[NextAuth Route] Importing PrismaClient...");
-// import { PrismaClient } from "@prisma/client" // Temporarily commented out
+// import { PrismaClient } from "@prisma/client" // No longer needed here
 // console.log("[NextAuth Route] PrismaClient imported.");
 
 // console.log("[NextAuth Route] Importing withAccelerate...");
-// import { withAccelerate } from '@prisma/extension-accelerate' // Temporarily commented out
+// import { withAccelerate } from '@prisma/extension-accelerate' // No longer needed here
 // console.log("[NextAuth Route] withAccelerate imported.");
 
 import type { NextAuthOptions } from "next-auth";
@@ -32,38 +32,25 @@ if (!process.env.NEXTAUTH_SECRET) {
 
 console.log("[NextAuth Route] Environment variables checked.");
 
-/* // Temporarily comment out Prisma instantiation
-// Instantiate Prisma Client directly within this file for the adapter
-// This might help with build-time resolution issues.
-// The singleton pattern in lib/prisma.ts is still recommended for runtime use elsewhere.
+// Use the singleton function to get the Prisma client instance
+console.log("[NextAuth Route] Calling getPrismaInstance() for adapter...");
+const prisma = getPrismaInstance();
+console.log("[NextAuth Route] getPrismaInstance() returned for adapter.");
+
+/* // Removed direct instantiation
 console.log("[NextAuth Route] Instantiating Prisma Client directly for adapter...");
 let prismaForAdapter;
 try {
-  console.log("[NextAuth Route] Calling new PrismaClient()...");
-  prismaForAdapter = new PrismaClient({
-    log: [
-      { emit: 'stdout', level: 'query' },
-      { emit: 'stdout', level: 'info' },
-      { emit: 'stdout', level: 'warn' },
-      { emit: 'stdout', level: 'error' },
-    ],
-  });
-  console.log("[NextAuth Route] new PrismaClient() returned.");
-
-  console.log("[NextAuth Route] Calling .extends(withAccelerate())...");
-  prismaForAdapter = prismaForAdapter.$extends(withAccelerate());
-  console.log("[NextAuth Route] .extends(withAccelerate()) returned.");
-
-  console.log("[NextAuth Route] Prisma Client instantiated successfully for adapter.");
+  // ... direct instantiation code ...
 } catch (error) {
   console.error("[NextAuth Route] ERROR during Prisma Client instantiation:", error);
-  throw error; // Re-throw the error to ensure the build fails clearly if instantiation fails
+  throw error; 
 }
 */
 
 console.log("[NextAuth Route] Configuring NextAuth options...");
 const authOptions: NextAuthOptions = {
-  // adapter: PrismaAdapter(prismaForAdapter), // Temporarily commented out
+  adapter: PrismaAdapter(prisma), // Re-enabled adapter with singleton instance
   providers: [
     /* // Commented out Google provider for now
     GoogleProvider({
@@ -72,13 +59,13 @@ const authOptions: NextAuthOptions = {
     }),
     */
   ],
-  session: { strategy: "jwt" }, // Force JWT strategy since adapter is removed
+  // session: { strategy: "jwt" }, // Use default database strategy with adapter
   secret: process.env.NEXTAUTH_SECRET,
   callbacks: {
-    session({ session, token }: { session: Session; token: any }) { // Use token with JWT strategy
-      console.log("[NextAuth Route] Session callback invoked (JWT).");
-      if (session.user && token.sub) {
-        session.user.id = token.sub; // Get ID from JWT token
+    session({ session, user }: { session: Session; user: AdapterUser }) { // Use user with adapter strategy
+      console.log("[NextAuth Route] Session callback invoked (Adapter).");
+      if (session.user) {
+        session.user.id = user.id; 
       }
       return session;
     },

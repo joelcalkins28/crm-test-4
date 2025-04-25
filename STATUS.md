@@ -36,6 +36,12 @@
     *   Commented out `PrismaAdapter` and all related imports/instantiation.
     *   Forced JWT session strategy (`session: { strategy: "jwt" }`).
     *   Goal: Verify if build passes without Prisma client interaction in this specific file during build analysis.
+    *   Result: **Build succeeded**, confirming the issue is with Prisma Client instantiation within this route during build analysis.
+*   **Re-instated Prisma Adapter using Singleton:**
+    *   Restored `PrismaAdapter` configuration in `src/app/api/auth/[...nextauth]/route.ts`.
+    *   Using the lazy-loaded singleton `getPrismaInstance` from `src/lib/prisma.ts`.
+    *   Removed temporary JWT strategy.
+    *   Hypothesis: The build analysis might tolerate the function call (`getPrismaInstance()`) even if it failed on direct instantiation (`new PrismaClient()`).
 
 ### Next Steps:
 
