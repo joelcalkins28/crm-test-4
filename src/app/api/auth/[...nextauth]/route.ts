@@ -1,7 +1,9 @@
 import NextAuth from "next-auth"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 // import GoogleProvider from "next-auth/providers/google" // Commented out for now
-import getPrismaInstance from "@/lib/prisma"
+// import getPrismaInstance from "@/lib/prisma" // No longer using the singleton function directly here for build
+import { PrismaClient } from "@prisma/client" // Import PrismaClient directly
+import { withAccelerate } from '@prisma/extension-accelerate' // Import Accelerate
 import type { NextAuthOptions } from "next-auth";
 import type { AdapterUser } from "next-auth/adapters";
 import type { Session } from "next-auth";
@@ -16,10 +18,14 @@ if (!process.env.NEXTAUTH_SECRET) {
   throw new Error("Missing NEXTAUTH_SECRET environment variable");
 }
 
-const prisma = getPrismaInstance();
+// Instantiate Prisma Client directly within this file for the adapter
+// This might help with build-time resolution issues.
+// The singleton pattern in lib/prisma.ts is still recommended for runtime use elsewhere.
+console.log("Instantiating Prisma Client directly in NextAuth route..."); // Add logging
+const prismaForAdapter = new PrismaClient().$extends(withAccelerate());
 
 const authOptions: NextAuthOptions = {
-  adapter: PrismaAdapter(prisma),
+  adapter: PrismaAdapter(prismaForAdapter), // Use the directly instantiated client
   providers: [
     /* // Commented out Google provider for now
     GoogleProvider({

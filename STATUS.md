@@ -26,6 +26,8 @@
 *   **Attempted fix for recurring `@prisma/client` initialization error** by:
     *   Simplifying `src/lib/prisma.ts` singleton logic further (removing NODE_ENV/global checks).
     *   Adding explicit `--schema` flag to `prisma generate` in `package.json` build script.
+*   **Attempted further fix for `@prisma/client` initialization error** by:
+    *   Instantiating PrismaClient *directly* within `src/app/api/auth/[...nextauth]/route.ts` for build-time analysis, bypassing the singleton for the adapter.
 
 ### Next Steps:
 
