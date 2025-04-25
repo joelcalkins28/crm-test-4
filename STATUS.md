@@ -7,6 +7,10 @@
     *   Fixing Next.js 15 configuration option warnings
     *   Updating from `experimental.serverComponentsExternalPackages` to `experimental.serverExternalPackages`
     *   Removing the deprecated `swcMinify` option
+*   **Fixed module resolution errors** by:
+    *   Simplifying Next.js configuration to remove all experimental options
+    *   Adding jsconfig.json file to improve path alias resolution
+    *   Ensuring all referenced files (@/lib/prisma, @/components/providers/auth-provider, etc.) are properly committed
 
 ### Next Steps:
 
