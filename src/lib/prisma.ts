@@ -1,5 +1,5 @@
 import { PrismaClient } from '@prisma/client'
-import { withAccelerate } from '@prisma/extension-accelerate'
+// import { withAccelerate } from '@prisma/extension-accelerate' // Temporarily removed
 
 declare global {
   // allow global `var` declarations
@@ -12,11 +12,11 @@ declare global {
 let prisma: PrismaClient | undefined;
 
 /**
- * Returns the singleton instance of PrismaClient with Accelerate.
+ * Returns the singleton instance of PrismaClient.
  * Instantiates the client ONLY when first called.
+ * TEMPORARILY WITHOUT ACCELERATE FOR DEBUGGING.
  */
 const getPrismaInstance = (): PrismaClient => {
-  // Development: Check global cache first
   if (process.env.NODE_ENV !== 'production') {
     if (global.prisma) {
       // console.log("[prisma.ts] Using existing global Prisma Client (Dev).");
@@ -32,8 +32,9 @@ const getPrismaInstance = (): PrismaClient => {
 
   // === INSTANTIATION POINT ===
   // Only happens if no instance exists in cache (global or module)
-  console.log("[prisma.ts] LAZY INITIALIZATION: Creating new Prisma Client instance NOW.");
-  const newInstance = new PrismaClient().$extends(withAccelerate());
+  console.log("[prisma.ts] LAZY INITIALIZATION: Creating new Prisma Client instance NOW (NO ACCELERATE).");
+  // const newInstance = new PrismaClient().$extends(withAccelerate()); // Temporarily removed Accelerate
+  const newInstance = new PrismaClient(); // Use base client
 
   // Cache the new instance
   if (process.env.NODE_ENV !== 'production') {

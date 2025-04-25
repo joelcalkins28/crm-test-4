@@ -53,6 +53,11 @@
     *   Modified `src/lib/prisma.ts` to ensure `new PrismaClient()` is *only* called within the `getPrismaInstance` function, not at the module's top level.
     *   Removed `DEBUG="prisma*"` build flag as generation timing is not the root cause.
     *   Goal: Prevent build-time analysis from triggering client instantiation.
+    *   Result: **Build FAILED**, still encountering `@prisma/client did not initialize yet` error, even with lazy instantiation.
+*   **Attempting fix by TEMPORARILY disabling Prisma Accelerate**:
+    *   Commented out `.extends(withAccelerate())` in `src/lib/prisma.ts`.
+    *   Verified `engineType = "library"` is set in `prisma/schema.prisma`.
+    *   Goal: Isolate if Accelerate extension is causing the build-time init failure.
 
 ### Next Steps:
 
