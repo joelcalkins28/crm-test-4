@@ -32,6 +32,10 @@
     *   Injected detailed `console.log` statements throughout `src/app/api/auth/[...nextauth]/route.ts`.
     *   Enabled Prisma Client's internal query/info/warn/error logging via instantiation options.
     *   Enabled Prisma's deeper debug logging by setting `DEBUG="prisma*"` environment variable in the `package.json` build script.
+*   **Temporarily removed ALL Prisma interaction from NextAuth route (`route.ts`) for build isolation**:
+    *   Commented out `PrismaAdapter` and all related imports/instantiation.
+    *   Forced JWT session strategy (`session: { strategy: "jwt" }`).
+    *   Goal: Verify if build passes without Prisma client interaction in this specific file during build analysis.
 
 ### Next Steps:
 
