@@ -18,6 +18,8 @@
 *   **Fixed `@prisma/client` initialization error during build** by:
     *   Refactoring `src/lib/prisma.ts` to use lazy initialization (getPrismaInstance function).
     *   Updating `src/app/api/auth/[...nextauth]/route.ts` to call the new function.
+*   **Fixed 'Missing Google OAuth environment variables' build error** by:
+    *   Temporarily commenting out the Google provider and related env var checks in NextAuth config (`src/app/api/auth/[...nextauth]/route.ts`).
 
 ### Next Steps:
 
