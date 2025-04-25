@@ -58,6 +58,14 @@
     *   Commented out `.extends(withAccelerate())` in `src/lib/prisma.ts`.
     *   Verified `engineType = "library"` is set in `prisma/schema.prisma`.
     *   Goal: Isolate if Accelerate extension is causing the build-time init failure.
+    *   Result: **Build FAILED**, still encountering `@prisma/client did not initialize yet` error. Accelerate is not the root cause.
+*   **Restructured Prisma Client Generation for Build Reliability**:
+    *   Changed `prisma/schema.prisma` generator to use default output path (`node_modules/.prisma/client`) instead of custom `src/generated/prisma`.
+    *   Updated `.gitignore` to exclude `/node_modules` but include `!/node_modules/.prisma/client`.
+    *   Removed old `src/generated` directory from Git.
+    *   Kept `postinstall` script for `prisma generate`.
+    *   Kept truly lazy singleton in `src/lib/prisma.ts` (re-enabled Accelerate).
+    *   Goal: Use Prisma's default, potentially more robust, client location mechanism during build.
 
 ### Next Steps:
 

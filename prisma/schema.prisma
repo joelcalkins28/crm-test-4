@@ -6,7 +6,8 @@
 
 generator client {
   provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  // Output to the default location within node_modules
+  // output   = "../src/generated/prisma" // Removed custom output path
   engineType = "library"
 }
 
