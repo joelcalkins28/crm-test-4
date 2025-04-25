@@ -28,6 +28,10 @@
     *   Adding explicit `--schema` flag to `prisma generate` in `package.json` build script.
 *   **Attempted further fix for `@prisma/client` initialization error** by:
     *   Instantiating PrismaClient *directly* within `src/app/api/auth/[...nextauth]/route.ts` for build-time analysis, bypassing the singleton for the adapter.
+*   **Added extensive logging for `@prisma/client` initialization error**:
+    *   Injected detailed `console.log` statements throughout `src/app/api/auth/[...nextauth]/route.ts`.
+    *   Enabled Prisma Client's internal query/info/warn/error logging via instantiation options.
+    *   Enabled Prisma's deeper debug logging by setting `DEBUG="prisma*"` environment variable in the `package.json` build script.
 
 ### Next Steps:
 
